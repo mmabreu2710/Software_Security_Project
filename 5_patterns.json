@@ -1,0 +1,32 @@
+[
+	{"vulnerability": "Remote Code Execution through Pickle Deserialization",
+	"sources": ["pickle.dumps"],
+	"sanitizers": [],
+	"sinks": ["pickle.loads"],
+	"implicit": "no"},
+  
+	{"vulnerability": "SQL injection",
+	"sources": ["requests.get", "requests.post"],
+	"sanitizers": ["psycopg2.sql.SQL", "psycopg2.sql.Identifier", "psycopg2.sql.Literal"],
+	"sinks": ["psycopg2.Cursor.execute", "psycopg2.extensions.register_type"],
+	"implicit": "no"},
+  
+	{"vulnerability": "XSS",
+	"sources": ["requests.get"],
+	"sanitizers": ["html.escape", "markupsafe.escape"],
+	"sinks": ["subprocess.run", "subprocess.Popen", "eval"],
+	"implicit": "no"},
+
+	{"vulnerability": "Command Injection",
+	"sources": ["requests.get", "requests.post"],
+	"sanitizers": ["shlex.quote"],
+	"sinks": ["subprocess.run", "subprocess.Popen"],
+	"implicit": "yes"},
+  
+	{"vulnerability": "Path Traversal",
+	"sources": ["os.path.join", "os.path.abspath"],
+	"sanitizers": ["os.path.normpath"],
+	"sinks": ["open"],
+	"implicit": "no"}
+  ]
+  
